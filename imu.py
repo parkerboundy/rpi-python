@@ -9,18 +9,20 @@ class IMU:
 	LSM303_CTRL_REG1_A = 0x20
 	LSM303_CTRL_REG4_A = 0x23
 	LSM303_MR_REG_M = 0x02
+	LSM303_OUT_X_L_A = 0x28
 
 	def __init__(self):
 		self.bus = smbus.SMBus(1)
 		# note: don't need to pass self directly since it is implicitly passed by python
 		self.writeAccReg(self.LSM303_CTRL_REG1_A, 0x27)
 		self.writeMagReg(self.LSM303_MR_REG_M, 0x00)
+		print self.readAccReg(self.LSM303_OUT_X_L_A | 0x80, 6) 
 
 	def writeAccReg(self, register, value):
 		self.bus.write_byte_data(self.ACC_ADDRESS, register, value)
 
-	def readAccReg(self, register):
-		return 0
+	def readAccReg(self, register, length):
+		return self.bus.read_i2c_block_data(self.ACC_ADDRESS, register, length)
 
 	def writeMagReg(self, register, value):
 		self.bus.write_byte_data(self.MAG_ADDRESS, register, value)
