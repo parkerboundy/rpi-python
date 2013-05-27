@@ -1,4 +1,5 @@
 import smbus
+import math
 
 class IMU: 
 	
@@ -44,16 +45,41 @@ class IMU:
 		self.readMag()
 
 	def heading(self):
-		return 0
+		mag = self.readMag()
+		a = self.readAcc()
+		a = self.__vector_normalize(a)
+		f = [0, -1, 0]
+		
+		e = self.__vector_cross(mag, a)
+		e = self.__vector_normalize(e)
+		n = self.__vector_cross(a, e)
+		
+		heading = round(math.atan2(self.__vector_dot(e, f), self.__vector_dot(n, f)) * 180 / math.pi)
+		
+		if heading < 0:
+			 heading += 360
+		
+		return heading
 
-	def vector_cross(self):
-		return 0
+	def __vector_cross(self, listA, listB):
+		data = []
+		data.append(listA[1]*listB[2] - listA[2]*listB[1])
+		data.append(listA[2]*listB[0] - listA[0]*listB[2])
+		data.append(listA[0]*listB[1] - listA[1]*listB[0])
+		print data
+		return data
 
-	def vector_dot(self):
-		return 0
+	def __vector_dot(self, listA, listB):
+		return listA[0]*listB[0]+listA[1]*listB[1]+listA[2]*listA[2]
 
-	def vector_normalize(self):
-		return 0
+	def __vector_normalize(self, list):
+		mag = math.sqrt(self.__vector_dot(list, list))
+		data = []
+		data.append(list[0] / mag)
+		data.append(list[1] / mag)
+		data.append(list[2] / mag)
+		print data
+		return data
 	
 	def __convert_accel(self, list, index):
 		n = list[index] | (list[index+1] << 8)
