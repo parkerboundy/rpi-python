@@ -14,6 +14,14 @@ class IMU:
 	LSM303_OUT_X_L_A = 0x28
 	LSM303_OUT_X_H_M = 0x03
 
+	# mag calibration
+	MAG_X_MIN = -520
+	MAG_X_MAX = 540
+	MAG_Y_MIN = -570
+ 	MAG_Y_MAX = 500
+	MAG_Z_MIN = -770
+	MAG_Z_MAX = 180
+
 	def __init__(self):
 		self.bus = smbus.SMBus(1)
 		# note: don't need to pass self directly since it is implicitly passed by python
@@ -46,6 +54,11 @@ class IMU:
 
 	def heading(self):
 		mag = self.readMag()
+		
+		mag[0] = (mag[0] - self.MAG_X_MIN) / (self.MAG_X_MAX - self.MAG_X_MIN) * 2 - 1 
+		mag[1] = (mag[1] - self.MAG_Y_MIN) / (self.MAG_Y_MAX - self.MAG_Y_MIN) * 2 - 1
+		mag[2] = (mag[2] - self.MAG_Z_MIN) / (self.MAG_Z_MAX - self.MAG_Z_MIN) * 2 - 1
+
 		a = self.readAcc()
 		a = self.__vector_normalize(a)
 		f = [0, -1, 0]
@@ -66,7 +79,6 @@ class IMU:
 		data.append(listA[1]*listB[2] - listA[2]*listB[1])
 		data.append(listA[2]*listB[0] - listA[0]*listB[2])
 		data.append(listA[0]*listB[1] - listA[1]*listB[0])
-		print data
 		return data
 
 	def __vector_dot(self, listA, listB):
@@ -78,7 +90,6 @@ class IMU:
 		data.append(list[0] / mag)
 		data.append(list[1] / mag)
 		data.append(list[2] / mag)
-		print data
 		return data
 	
 	def __convert_accel(self, list, index):
