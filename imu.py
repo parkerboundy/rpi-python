@@ -1,5 +1,7 @@
 import smbus
 import math
+from operator import mul
+from itertools import starmap, izip
 
 class IMU: 
 	
@@ -15,12 +17,13 @@ class IMU:
 	LSM303_OUT_X_H_M = 0x03
 
 	# mag calibration
-	MAG_X_MIN = -520
-	MAG_X_MAX = 540
-	MAG_Y_MIN = -570
- 	MAG_Y_MAX = 500
-	MAG_Z_MIN = -770
-	MAG_Z_MAX = 180
+	# note: need to be floats so our mag scaling in heading() works correctly
+	MAG_X_MIN = -537.0
+	MAG_X_MAX = 432.0
+	MAG_Y_MIN = -587.0
+ 	MAG_Y_MAX = 644.0
+	MAG_Z_MIN = -532.0
+	MAG_Z_MAX = 581.0
 
 	def __init__(self):
 		self.bus = smbus.SMBus(1)
@@ -45,8 +48,9 @@ class IMU:
 		return [self.__convert_accel(data, 0), self.__convert_accel(data, 2), self.__convert_accel(data, 4)]
 
 	def readMag(self):
+		# note: mag returns values in the wrong order (x, z, y) 
 		data = self.readMagReg(self.LSM303_OUT_X_H_M, 6)
-		return [self.__convert_mag(data, 0), self.__convert_mag(data, 2), self.__convert_mag(data, 4)]
+		return [self.__convert_mag(data, 0), self.__convert_mag(data, 4), self.__convert_mag(data, 2)]
 
 	def read(self):
 		self.readAcc()
@@ -54,11 +58,10 @@ class IMU:
 
 	def heading(self):
 		mag = self.readMag()
-		
-		mag[0] = (mag[0] - self.MAG_X_MIN) / (self.MAG_X_MAX - self.MAG_X_MIN) * 2 - 1 
+		mag[0] = (mag[0] - self.MAG_X_MIN) / (self.MAG_X_MAX - self.MAG_X_MIN) * 2 - 1
 		mag[1] = (mag[1] - self.MAG_Y_MIN) / (self.MAG_Y_MAX - self.MAG_Y_MIN) * 2 - 1
 		mag[2] = (mag[2] - self.MAG_Z_MIN) / (self.MAG_Z_MAX - self.MAG_Z_MIN) * 2 - 1
-
+		
 		a = self.readAcc()
 		a = self.__vector_normalize(a)
 		f = [0, -1, 0]
@@ -66,7 +69,7 @@ class IMU:
 		e = self.__vector_cross(mag, a)
 		e = self.__vector_normalize(e)
 		n = self.__vector_cross(a, e)
-		
+	
 		heading = round(math.atan2(self.__vector_dot(e, f), self.__vector_dot(n, f)) * 180 / math.pi)
 		
 		if heading < 0:
@@ -82,7 +85,7 @@ class IMU:
 		return data
 
 	def __vector_dot(self, listA, listB):
-		return listA[0]*listB[0]+listA[1]*listB[1]+listA[2]*listA[2]
+		return sum(starmap(mul, izip(listA, listB)))
 
 	def __vector_normalize(self, list):
 		mag = math.sqrt(self.__vector_dot(list, list))
