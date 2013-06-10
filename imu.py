@@ -18,11 +18,11 @@ class IMU:
 
 	# mag calibration
 	# note: need to be floats so our mag scaling in heading() works correctly
-	MAG_X_MIN = -537.0
-	MAG_X_MAX = 432.0
-	MAG_Y_MIN = -587.0
+	MAG_X_MIN = -573.0
+	MAG_X_MAX = 573.0
+	MAG_Y_MIN = -661.0
  	MAG_Y_MAX = 644.0
-	MAG_Z_MIN = -532.0
+	MAG_Z_MIN = -543.0
 	MAG_Z_MAX = 581.0
 
 	def __init__(self):
