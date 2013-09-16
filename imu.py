@@ -75,7 +75,7 @@ class IMU:
 		if heading < 0:
 			 heading += 360
 		
-		return heading
+		return int(heading)
 
 	def __vector_cross(self, listA, listB):
 		data = []
