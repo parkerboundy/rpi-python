@@ -15,11 +15,11 @@ class UDPSocket(threading.Thread):
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		self.s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-	def _send(self, data):
+	def _end(self, data):
 		self.s.sendto(data, ('<broadcast>', 5050))
 
 	def run(self):
 		while True:
 			message = self.queue.get()
-			self._send(message)
+			self.send(message)
 			self.queue.task_done()
