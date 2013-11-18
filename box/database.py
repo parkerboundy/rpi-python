@@ -30,7 +30,7 @@ class Database(threading.Thread):
 		self.cur.executescript(sql)
 
 	def insert(self, datapoint):
-		con = sqlite3.connect('box.db')
+		con = sqlite3.connect('db/box.db')
 		cur = con.cursor()
 		cur.execute("INSERT INTO points(speed) VALUES (?)", (123,))
 		con.close()
