@@ -1,6 +1,7 @@
 import threading
 import Queue
 import sqlite3
+import logging
 
 class Database(threading.Thread):
 
@@ -8,6 +9,8 @@ class Database(threading.Thread):
 		threading.Thread.__init__(self)
 		self.queue = queue
 		self.daemon = True
+		
+		self.log = logging.getLogger(__name__)
 
 		#self.con = sqlite3.connect('box.db')
 		#self.cur = self.con.cursor()

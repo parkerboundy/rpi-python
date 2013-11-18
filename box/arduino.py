@@ -1,6 +1,7 @@
 import smbus
 import struct
 from datetime import datetime
+import logging
 
 bus = smbus.SMBus(1)
 
@@ -12,6 +13,7 @@ class ARDUINO:
 	ARDUINO_WIND_REG = 0x02
 
 	def __init__(self):
+		self.log = logging.getLogger(__name__)
 		self.bus = smbus.SMBus(1)
 
 	def write_register(self, register):

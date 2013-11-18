@@ -2,6 +2,7 @@ import smbus
 import math
 from operator import mul
 from itertools import starmap, izip
+import logging
 
 class IMU: 
 	
@@ -26,6 +27,7 @@ class IMU:
 	MAG_Z_MAX = 581.0
 
 	def __init__(self):
+		self.log = logging.getLogger(__name__)
 		self.bus = smbus.SMBus(1)
 		# note: don't need to pass self directly since it is implicitly passed by python
 		self.writeAccReg(self.LSM303_CTRL_REG1_A, 0x27)

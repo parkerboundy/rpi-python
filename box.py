@@ -11,12 +11,15 @@ while 1:
 	time.sleep(1)
 '''
 import Queue
+import logging
 
 from box.database import Database
 from box.datapoint import DataPoint
 from box.udpsocket import UDPSocket
 
 def main():
+	logging.basicConfig(filename='box.log')
+	logging.error("about to start")
 	dbQueue = Queue.Queue()
 	sockQueue = Queue.Queue()
 
