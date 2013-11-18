@@ -6,12 +6,13 @@ import logging
 class Database(threading.Thread):
 
 	def __init__(self, queue):
+		self.log = logging.getLogger(__name__)
+		self.log.info('Initializing database')
+
 		threading.Thread.__init__(self)
 		self.queue = queue
 		self.daemon = True
 		
-		self.log = logging.getLogger(__name__)
-
 		#self.con = sqlite3.connect('box.db')
 		#self.cur = self.con.cursor()
 
@@ -24,12 +25,15 @@ class Database(threading.Thread):
 			self._create_schema()
 
 	def _create_schema(self):
+		self.log.info('Creating database schema')
+		
 		f = open('box/schema.sql','r')
 		sql = f.read()
-		print sql
 		self.cur.executescript(sql)
 
 	def insert(self, datapoint):
+		self.log.info('Inserting new datapoint into db - %s', datapoint)
+		
 		con = sqlite3.connect('db/box.db')
 		cur = con.cursor()
 		cur.execute("INSERT INTO points(speed) VALUES (?)", (123,))
@@ -38,5 +42,6 @@ class Database(threading.Thread):
 	def run(self):
 		while True:
 			data = self.queue.get()
+			self.log.info('Received data from queue "%s"', data)
 			self.insert(data)
 			self.queue.task_done()
