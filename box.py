@@ -1,46 +1,33 @@
-'''
-from imu import IMU
-from udpsocket import UDPSocket
-import time
-
-sock = UDPSocket()
-newimu = IMU()
-
-while 1: 
-	sock.send(str(newimu.heading()))
-	time.sleep(1)
-'''
 import argparse
 import Queue
 import logging
 
+#from box.arduino import Arduino
 from box.database import Database
 from box.datapoint import DataPoint
+#from box.imu import IMU
 from box.udpsocket import UDPSocket
 
-def main():
-	logging.basicConfig(filename='logs/box.log')
-	logging.error("about to start")
 def main(args):
+
+	logging.basicConfig(filename='logs/box.log', level=args['log_level'].upper(), format='%(asctime)s:%(levelname)s:%(module)s:%(message)s')
+
 	dbQueue = Queue.Queue()
 	sockQueue = Queue.Queue()
 
-	#sock = UDPSocket(sockQueue)
-	#sock.start()
-	d = Database(dbQueue)
-	d.start()
+	point = DataPoint()
+	sock = UDPSocket(sockQueue)
+	sock.start()
+	#d = Database(dbQueue)
+	#d.start()
 
 	while True:
 		s = raw_input()
 		if s == "close":
 			break;
 		else:
-			dbQueue.put(int(s))
-#point = DataPoint()
-#d = Database()
-
-#point.speed = 1
-#d.insert(point)
+			#dbQueue.put(int(s))
+			sockQueue.put(s)
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='Sailing Data Collection Server')
