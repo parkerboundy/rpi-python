@@ -6,7 +6,8 @@ import logging
 from box.database import Database
 from box.datapoint import DataPoint
 #from box.imu import IMU
-from box.udpsocket import UDPSocket
+from box.udpsocket import SocketClient
+from box.udpsocket import SocketServer
 
 def main(args):
 
@@ -16,8 +17,10 @@ def main(args):
 	sockQueue = Queue.Queue()
 
 	point = DataPoint()
-	sock = UDPSocket(sockQueue)
-	sock.start()
+	client = SocketClient(sockQueue)
+	server = SocketServer()
+	client.start()
+	server.start()
 	#d = Database(dbQueue)
 	#d.start()
 
