@@ -10,12 +10,32 @@ while 1:
 	sock.send(str(newimu.heading()))
 	time.sleep(1)
 '''
+import Queue
 
 from box.database import Database
 from box.datapoint import DataPoint
+from box.udpsocket import UDPSocket
 
-point = DataPoint()
-d = Database()
+def main():
+	dbQueue = Queue.Queue()
+	sockQueue = Queue.Queue()
 
-point.speed = 1
-d.insert(point)
+	#sock = UDPSocket(sockQueue)
+	#sock.start()
+	d = Database(dbQueue)
+	d.start()
+
+	while True:
+		s = raw_input()
+		if s == "close":
+			break;
+		else:
+			dbQueue.put(int(s))
+#point = DataPoint()
+#d = Database()
+
+#point.speed = 1
+#d.insert(point)
+
+if __name__ == "__main__":
+    main()
