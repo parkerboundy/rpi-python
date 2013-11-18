@@ -18,7 +18,7 @@ from box.datapoint import DataPoint
 from box.udpsocket import UDPSocket
 
 def main():
-	logging.basicConfig(filename='box.log')
+	logging.basicConfig(filename='logs/box.log')
 	logging.error("about to start")
 	dbQueue = Queue.Queue()
 	sockQueue = Queue.Queue()
