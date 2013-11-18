@@ -10,6 +10,7 @@ while 1:
 	sock.send(str(newimu.heading()))
 	time.sleep(1)
 '''
+import argparse
 import Queue
 import logging
 
@@ -20,6 +21,7 @@ from box.udpsocket import UDPSocket
 def main():
 	logging.basicConfig(filename='logs/box.log')
 	logging.error("about to start")
+def main(args):
 	dbQueue = Queue.Queue()
 	sockQueue = Queue.Queue()
 
@@ -41,4 +43,7 @@ def main():
 #d.insert(point)
 
 if __name__ == "__main__":
-    main()
+	parser = argparse.ArgumentParser(description='Sailing Data Collection Server')
+	parser.add_argument('-p','--port_number', type=int, metavar='Port', help='UDP port number', default=5050)
+	parser.add_argument('-l', '--log_level', type=str, choices=['debug', 'info', 'warning', 'error', 'critical'], help='Log level to use', default='debug')
+	main(vars(parser.parse_args()))
