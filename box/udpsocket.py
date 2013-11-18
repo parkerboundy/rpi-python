@@ -29,6 +29,8 @@ class SocketClient(threading.Thread):
 class SocketServer(threading.Thread):
 	
 		def __init__(self):
+			self.log = logging.getLogger(__name__)
+
 			threading.Thread.__init__(self)
 			self.daemon = True		
 
@@ -38,4 +40,5 @@ class SocketServer(threading.Thread):
 		def run(self):
 			while True:
 				data = self.s.recv(1024)
+				self.log.info('Received socket with message "%s"', data)
 				print data
