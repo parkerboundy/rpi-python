@@ -5,7 +5,7 @@ import logging
 
 bus = smbus.SMBus(1)
 
-class ARDUINO: 
+class Arduino: 
 
 	# register addresses
 	ARDUINO_ADDRESS = 0x04
