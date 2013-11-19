@@ -58,18 +58,18 @@ $(document).ready(function() {
   $('.list-group a').click(function() {
   	switch(this.id){
   		case "all":
-  			$('.race').fadeIn();
-  			$('.practice').fadeIn();
+  			$('.race').show();
+  			$('.practice').show();
   			break;
 
   		case "race":
-  			$('.race').fadeIn();
+  			$('.race').show();
   			$('.practice').hide();
   			break;
 
 		case "practice":
 			$('.race').hide();
-			$('.practice').fadeIn();
+			$('.practice').show();
 			break;
 	}
 	$('.active').removeClass('active');
