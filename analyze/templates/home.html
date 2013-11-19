@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block nav %}
+{{super()}}
+{% endblock %}
+{% block content %}
+  <h1>Races</h1>
+<div class="row">
+	<div class="col-md-3">
+		<div class="list-group">
+  			<a href="#" class="list-group-item active" id="all">
+    			<span class="badge">14</span>
+    			All
+  			</a>
+  			<a href="#" class="list-group-item" id="race">
+    			<span class="badge">14</span>
+    			Races Only
+  			</a>
+  			<a href="#" class="list-group-item" id="practice">
+    			<span class="badge">14</span>
+    			Practice Only
+  			</a>
+
+		</div>
+	</div>
+	<div class="col-md-9">
+	  <div class="table-responsive">
+		  <table class="table">
+		    <thead>
+			    <tr>
+			    	<th>Date</th>
+			    	<th>Name</th>
+			    	<th>Type</th>
+			    	<th>Finish Place</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+		    	<tr class="race">
+		    		<td><a href="/races/1">1</a></td>
+		    		<td><a href="/races/1">1</a></td>
+		    		<td><a href="/races/1">Race</a></td>
+		    		<td><a href="/races/1">1</a></td>
+		    	</tr>
+		    	<tr class="practice">
+		    		<td>1</td>
+		    		<td>2</td>
+		    		<td>Practice</td>
+		    		<td>4</td>
+		    	</tr>
+		    	<tr class="race">
+		    		<td>1</td>
+		    		<td>2</td>
+		    		<td>Race</td>
+		    		<td>4</td>
+		    	</tr>
+		    </tbody>
+		  </table>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript%}
+$(document).ready(function() {
+  $('.list-group a').click(function() {
+  	console.log(this.id);
+  	switch(this.id){
+  		case "all":
+  			$('.race').fadeIn();
+  			$('.practice').fadeIn();
+  			break;
+
+  		case "race":
+  			$('.race').fadeIn();
+  			$('.practice').fadeOut();
+  			break;
+
+		case "practice":
+			$('.race').fadeOut();
+			$('.practice').fadeIn();
+			break;
+	}
+  });
+});
+{% endblock %}
