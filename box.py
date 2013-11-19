@@ -1,4 +1,4 @@
-import argparse
+
 import Queue
 import logging
 
@@ -8,6 +8,8 @@ from box.datapoint import DataPoint
 #from box.imu import IMU
 from box.udpsocket import SocketClient
 from box.udpsocket import SocketServer
+from box.util import settings
+from box.util import parser
 
 def main(args):
 
@@ -33,7 +35,4 @@ def main(args):
 			sockQueue.put(s)
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description='Sailing Data Collection Server')
-	parser.add_argument('-p','--port_number', type=int, metavar='Port', help='UDP port number', default=5050)
-	parser.add_argument('-l', '--log_level', type=str, choices=['debug', 'info', 'warning', 'error', 'critical'], help='Log level to use', default='debug')
 	main(vars(parser.parse_args()))
