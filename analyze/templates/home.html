@@ -34,24 +34,18 @@
 			    </tr>
 		    </thead>
 		    <tbody>
+		    	{% for race in races %}
+		    	{% if race.type == 1 %}
 		    	<tr class="race">
-		    		<td><a href="/races/1">1</a></td>
-		    		<td><a href="/races/1">1</a></td>
-		    		<td><a href="/races/1">Race</a></td>
-		    		<td><a href="/races/1">1</a></td>
-		    	</tr>
+		    	{% else %}
 		    	<tr class="practice">
-		    		<td>1</td>
-		    		<td>2</td>
-		    		<td>Practice</td>
-		    		<td>4</td>
+		    	{% endif %}
+		    		<td><a href="/races/{{race.id}}">1/1/1</a></td>
+		    		<td><a href="/races/{{race.id}}">{{race.name}}</a></td>
+		    		<td><a href="/races/{{race.id}}">{{race.type}}</a></td>
+		    		<td><a href="/races/{{race.id}}"></a></td>
 		    	</tr>
-		    	<tr class="race">
-		    		<td>1</td>
-		    		<td>2</td>
-		    		<td>Race</td>
-		    		<td>4</td>
-		    	</tr>
+		    	{% endfor %}
 		    </tbody>
 		  </table>
 		</div>
@@ -62,7 +56,6 @@
 {% block javascript%}
 $(document).ready(function() {
   $('.list-group a').click(function() {
-  	console.log(this.id);
   	switch(this.id){
   		case "all":
   			$('.race').fadeIn();
@@ -71,14 +64,16 @@ $(document).ready(function() {
 
   		case "race":
   			$('.race').fadeIn();
-  			$('.practice').fadeOut();
+  			$('.practice').hide();
   			break;
 
 		case "practice":
-			$('.race').fadeOut();
+			$('.race').hide();
 			$('.practice').fadeIn();
 			break;
 	}
+	$('.active').removeClass('active');
+	$(this).addClass('active');
   });
 });
 {% endblock %}
