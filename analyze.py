@@ -17,6 +17,10 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+@app.template_filter('countattribute')
+def countattribute(list, attribute, value):
+	return sum(x[attribute] == value for x in list)
+
 @app.before_request
 def before_request():
     g.db = connect_db()
