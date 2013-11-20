@@ -8,4 +8,37 @@
 
 {% block content %}
 <h1>Add</h1>
+<div class="row">
+	<div class="col-md-6">
+		<form role="form" id="add-form">
+			<div class="form-group">
+  				<label for="date">Track Date</label>
+  				<select id="date" class="form-control">
+  					<option value="">Select</option>
+  					<option value="1">Select</option>
+  				</select>
+  			</div>
+  			<div class="form-group">
+  				<label for="name">Name</label>
+  				<input id="name" class="form-control" disabled>
+  			</div>
+  			<div class="form-group">
+  				<label for="type">Type</label>
+  				<select id="type" class="form-control" disabled>
+  					<option>Race</option>
+  					<option>Practice</option>
+  				</select>
+  			</div>
+  			<div class="form-group">
+  				<label for="slider">Track Filter</label>
+  				<div id="slider" data-point-count=200></div>
+  			</div>
+  			<button type="submit" class="btn btn-default" data-loading-text="Loading..." >Submit</button>
+  		</form>
+
+	</div>
+	<div class="col-md-6">
+		<div class="map">
+		</div>
+	</div>
 {% endblock %}
