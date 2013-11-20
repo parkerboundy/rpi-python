@@ -52,28 +52,3 @@
 	</div>
 </div>
 {% endblock %}
-
-{% block javascript%}
-$(document).ready(function() {
-  $('.list-group a').click(function() {
-  	switch(this.id){
-  		case "all":
-  			$('.race').show();
-  			$('.practice').show();
-  			break;
-
-  		case "race":
-  			$('.race').show();
-  			$('.practice').hide();
-  			break;
-
-		case "practice":
-			$('.race').hide();
-			$('.practice').show();
-			break;
-	}
-	$('.active').removeClass('active');
-	$(this).addClass('active');
-  });
-});
-{% endblock %}
