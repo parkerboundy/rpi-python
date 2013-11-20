@@ -47,4 +47,10 @@ $(document).ready(function() {
     }
   });
 
+  $('#home-menu').width($('.col-md-3').width());
+
+  $(window).resize(function(){
+    $('#home-menu').width($('.col-md-3').width());
+  })
+  
 });
