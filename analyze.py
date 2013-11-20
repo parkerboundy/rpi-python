@@ -7,7 +7,6 @@ from flask import g
 app = Flask(__name__, template_folder='analyze/templates', static_folder='analyze/static')
 
 
-
 def connect_db():
 	return sqlite3.connect('db/box.db')
 
@@ -43,7 +42,8 @@ def add():
 
 @app.route('/races/<int:race_id>')
 def show_race(race_id):
-	return render_template('race.html')
+	race = query_db("SELECT * FROM races WHERE id = ?", [race_id], one=True)
+	return render_template('race.html', race=race)
 
 @app.route('/stats')
 def stats():
