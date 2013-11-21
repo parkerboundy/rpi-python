@@ -13,14 +13,14 @@ class Database(threading.Thread):
 		self.queue = queue
 		self.daemon = True
 		
-		#self.con = sqlite3.connect('box.db')
-		#self.cur = self.con.cursor()
-
 		#self._check_schema()
 
 	def _check_schema(self):
-		self.cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='points';")
-		exists = self.cur.fetchone()[0];
+		con = sqlite3.connect('db/box.db')
+		cur = con.cursor()
+		cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='points';")
+		exists = cur.fetchone();
+		con.close()
 		if exists != 1: 
 			self._create_schema()
 
@@ -29,14 +29,20 @@ class Database(threading.Thread):
 		
 		f = open('box/schema.sql','r')
 		sql = f.read()
-		self.cur.executescript(sql)
+		con = sqlite3.connect('db/box.db')
+		cur = con.cursor()
+		cur.executescript(sql)
+		con.close()
 
 	def insert(self, datapoint):
 		self.log.info('Inserting new datapoint into db - %s', datapoint)
 		
 		con = sqlite3.connect('db/box.db')
 		cur = con.cursor()
-		cur.execute("INSERT INTO points(speed) VALUES (?)", (123,))
+		cur.execute("INSERT INTO points (speed) VALUES (?)", (123,))
+		con.commit()
+		con.close()
+
 	def dummy(self, datapoint):
 		con = sqlite3.connect('db/box.db')
 		cur = con.cursor()
@@ -48,7 +54,6 @@ class Database(threading.Thread):
 		while True:
 			data = self.queue.get()
 			self.log.info('Received data from queue "%s"', data)
-			self.insert(data)
 			#self.insert(data)
 			self.dummy(data)
 			self.queue.task_done()
