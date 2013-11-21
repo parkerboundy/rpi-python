@@ -8,10 +8,10 @@ parser.add_argument('-l', '--log_level', type=str, choices=['debug', 'info', 'wa
 
 settings = {}
 settings['port'] = 5050;
-settings['log_file'] = 'logs/box.log'
+settings['log_file'] = 'box/logs/box.log'
 settings['log_level'] = 'DEBUG'
 settings['log_format'] = '%(asctime)s:%(levelname)s:%(module)s:%(message)s'
-settings['database_file'] = 'db/box.db'
+settings['database_file'] = 'box/db/box.db'
 
 logging.basicConfig(filename=settings['log_file'], 
 	level=settings['log_level'].upper(), 
