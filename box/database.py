@@ -37,6 +37,11 @@ class Database(threading.Thread):
 		con = sqlite3.connect('db/box.db')
 		cur = con.cursor()
 		cur.execute("INSERT INTO points(speed) VALUES (?)", (123,))
+	def dummy(self, datapoint):
+		con = sqlite3.connect('db/box.db')
+		cur = con.cursor()
+		cur.execute("INSERT INTO races (name, type) VALUES (?, ?)", ('Sample Race', datapoint))
+		con.commit()
 		con.close()
 
 	def run(self):
@@ -44,4 +49,6 @@ class Database(threading.Thread):
 			data = self.queue.get()
 			self.log.info('Received data from queue "%s"', data)
 			self.insert(data)
+			#self.insert(data)
+			self.dummy(data)
 			self.queue.task_done()
