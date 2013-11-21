@@ -20,18 +20,19 @@ def main(args):
 	point = DataPoint()
 	client = SocketClient(sockQueue)
 	server = SocketServer()
+	d = Database(dbQueue)
+
 	client.start()
 	server.start()
-	#d = Database(dbQueue)
-	#d.start()
+	d.start()
 
 	while True:
 		s = raw_input()
 		if s == "close":
 			break;
 		else:
-			#dbQueue.put(int(s))
-			sockQueue.put(s)
+			dbQueue.put(int(s))
+			#sockQueue.put(s)
 
 if __name__ == "__main__":
 	main(vars(parser.parse_args()))
