@@ -1,6 +1,5 @@
 
 import Queue
-import logging
 
 #from box.arduino import Arduino
 from box.database import Database
@@ -10,10 +9,10 @@ from box.udpsocket import SocketClient
 from box.udpsocket import SocketServer
 from box.util import settings
 from box.util import parser
+from box.util import logging
 
 def main(args):
-
-	logging.basicConfig(filename='logs/box.log', level=args['log_level'].upper(), format='%(asctime)s:%(levelname)s:%(module)s:%(message)s')
+	logging.info('Starting Main')
 
 	dbQueue = Queue.Queue()
 	sockQueue = Queue.Queue()
