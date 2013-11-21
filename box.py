@@ -2,14 +2,14 @@
 import Queue
 
 #from box.arduino import Arduino
-from box.database import Database
-from box.datapoint import DataPoint
+from box.common.database import Database
+from box.record.datapoint import DataPoint
 #from box.imu import IMU
-from box.udpsocket import SocketClient
-from box.udpsocket import SocketServer
-from box.util import settings
-from box.util import parser
-from box.util import logging
+from box.record.udpsocket import SocketClient
+from box.record.udpsocket import SocketServer
+from box.common.util import settings
+from box.common.util import parser
+from box.common.util import logging
 
 def main(args):
 	logging.info('Starting Main')
