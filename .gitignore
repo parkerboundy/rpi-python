@@ -37,4 +37,4 @@ nosetests.xml
 # Project Specific
 box.db
 *.log
-analyze/static
+box/analyze/static/
