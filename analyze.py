@@ -4,11 +4,13 @@ from flask import Flask
 from flask import render_template
 from flask import g
 
-app = Flask(__name__, template_folder='analyze/templates', static_folder='analyze/static')
+from box.common.util import settings
+
+app = Flask(__name__, template_folder=settings['template_dir'], static_folder=settings['static_dir'])
 
 
 def connect_db():
-	return sqlite3.connect('db/box.db')
+	return sqlite3.connect(settings['database_file'])
 
 def query_db(query, args=(), one=False):
     cur = g.db.execute(query, args)
