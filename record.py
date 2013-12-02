@@ -8,10 +8,11 @@ from box.record.datapoint import DataPoint
 from box.record.udpsocket import SocketClient
 from box.record.udpsocket import SocketServer
 from box.common.util import settings
-from box.common.util import parser
+from box.common.util import ArgumentParser
 from box.common.util import logging
 
 def main(args):
+	
 	logging.info('Starting Main')
 
 	dbQueue = Queue.Queue()
@@ -35,4 +36,6 @@ def main(args):
 			#sockQueue.put(s)
 
 if __name__ == "__main__":
+	parser = ArgumentParser()
+
 	main(vars(parser.parse_args()))
